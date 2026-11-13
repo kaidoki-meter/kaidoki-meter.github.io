@@ -22,6 +22,18 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
+      - name: 鍵が登録されているか確かめる
+        id: keys
+        env:
+          APP_ID: ${{ secrets.RAKUTEN_APP_ID }}
+        run: |
+          if [ -z "$APP_ID" ]; then
+            echo "楽天の鍵(RAKUTEN_APP_ID)がまだ登録されていないので、今日は何もしません。"
+            echo "ready=no" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=yes" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
@@ -29,13 +41,16 @@ jobs:
           python-version: "3.12"
 
       - name: サイトの住所を調べる
+        if: steps.keys.outputs.ready == 'yes'
         id: pages
         uses: actions/configure-pages@v5
 
       - name: テスト
+        if: steps.keys.outputs.ready == 'yes'
         run: python -m unittest discover -s tests
 
       - name: 楽天から今日の価格を取る
+        if: steps.keys.outputs.ready == 'yes'
         env:
           RAKUTEN_APP_ID: ${{ secrets.RAKUTEN_APP_ID }}
           RAKUTEN_ACCESS_KEY: ${{ secrets.RAKUTEN_ACCESS_KEY }}
@@ -44,6 +59,7 @@ jobs:
         run: python -m kaidoki collect
 
       - name: 記録を保存する
+        if: steps.keys.outputs.ready == 'yes'
         run: |
           git config user.name "kaidoki-bot"
           git config user.email "kaidoki-bot@users.noreply.github.com"
@@ -52,17 +68,18 @@ jobs:
           git push
 
       - name: サイトを作り直す
+        if: steps.keys.outputs.ready == 'yes'
         env:
           SITE_BASE_URL: ${{ vars.SITE_BASE_URL || steps.pages.outputs.base_url }}
           AMAZON_TAG: ${{ vars.AMAZON_TAG }}
         run: python -m kaidoki build
 
       - name: 公開用にまとめる
-        if: vars.PUBLISH == 'yes'
+        if: steps.keys.outputs.ready == 'yes' && vars.PUBLISH == 'yes'
         uses: actions/upload-pages-artifact@v3
         with:
           path: public
 
       - name: 公開する
-        if: vars.PUBLISH == 'yes'
+        if: steps.keys.outputs.ready == 'yes' && vars.PUBLISH == 'yes'
         uses: actions/deploy-pages@v4
