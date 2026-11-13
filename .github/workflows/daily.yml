@@ -1,0 +1,68 @@
+# 毎日1回、クラウド(GitHub)上で自動で動く。PCの電源は関係ない。
+#   1. テスト → 2. 楽天から価格を取得 → 3. 記録を保存 → 4. サイトを作り直す → 5. 公開
+# 公開(5)は、リポジトリの変数 PUBLISH を yes にするまで行わない(最初の確認が済むまでの安全弁)。
+name: daily
+
+on:
+  schedule:
+    - cron: "10 21 * * *"   # 日本時間の毎朝6時10分ごろ
+  workflow_dispatch:         # 手動でも動かせる(Actions の画面の「Run workflow」)
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: daily
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: サイトの住所を調べる
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: テスト
+        run: python -m unittest discover -s tests
+
+      - name: 楽天から今日の価格を取る
+        env:
+          RAKUTEN_APP_ID: ${{ secrets.RAKUTEN_APP_ID }}
+          RAKUTEN_ACCESS_KEY: ${{ secrets.RAKUTEN_ACCESS_KEY }}
+          RAKUTEN_AFFILIATE_ID: ${{ secrets.RAKUTEN_AFFILIATE_ID }}
+          SITE_BASE_URL: ${{ vars.SITE_BASE_URL || steps.pages.outputs.base_url }}
+        run: python -m kaidoki collect
+
+      - name: 記録を保存する
+        run: |
+          git config user.name "kaidoki-bot"
+          git config user.email "kaidoki-bot@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet || git commit -m "data: $(TZ=Asia/Tokyo date +%F)"
+          git push
+
+      - name: サイトを作り直す
+        env:
+          SITE_BASE_URL: ${{ vars.SITE_BASE_URL || steps.pages.outputs.base_url }}
+          AMAZON_TAG: ${{ vars.AMAZON_TAG }}
+        run: python -m kaidoki build
+
+      - name: 公開用にまとめる
+        if: vars.PUBLISH == 'yes'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: 公開する
+        if: vars.PUBLISH == 'yes'
+        uses: actions/deploy-pages@v4

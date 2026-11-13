@@ -1,0 +1,45 @@
+{
+  "_memo": "追跡する商品の一覧。q=楽天での検索語 / must=商品名に必ず含まれる文字(空白・ハイフンは無視、a|b はどちらか) / ng=含まれていたら外す文字 / typical=だいたいの相場(円)。typical は最初の絞り込みと見本データにだけ使い、実データが7日たまったら実際の値動きに自動で合わせる。",
+  "ng_words": ["中古", "訳あり", "ジャンク", "レンタル", "互換", "ケース", "カバー", "フィルム", "保護シート", "交換用", "イヤーパッド", "イヤーピース", "部品", "パーツ", "ソール", "グリップテープ", "キーキャップ", "修理", "買取", "ふるさと納税", "並行輸入", "海外版", "箱のみ", "空箱", "展示品", "アウトレット", "リファービッシュ", "整備済"],
+  "categories": [
+    {"id": "mouse", "name": "マウス"},
+    {"id": "keyboard", "name": "キーボード"},
+    {"id": "stream", "name": "マイク・配信機材"},
+    {"id": "audio", "name": "イヤホン・ヘッドホン"},
+    {"id": "power", "name": "充電器・モバイルバッテリー"},
+    {"id": "home", "name": "スマートホーム"},
+    {"id": "desk", "name": "デスク周り・カメラ"}
+  ],
+  "products": [
+    {"id": "logicool-mx-master-3s", "name": "ロジクール MX Master 3S", "cat": "mouse", "q": "ロジクール MX Master 3S", "must": ["mxmaster3s"], "typical": 15000},
+    {"id": "logicool-mx-anywhere-3s", "name": "ロジクール MX Anywhere 3S", "cat": "mouse", "q": "ロジクール MX Anywhere 3S", "must": ["mxanywhere3s"], "typical": 11000},
+    {"id": "logicool-g-pro-x-superlight-2", "name": "ロジクールG PRO X SUPERLIGHT 2", "cat": "mouse", "q": "ロジクール PRO X SUPERLIGHT 2", "must": ["superlight2"], "ng": ["dex", "superlight2c"], "typical": 21000},
+    {"id": "razer-deathadder-v3-pro", "name": "Razer DeathAdder V3 Pro", "cat": "mouse", "q": "Razer DeathAdder V3 Pro", "must": ["deathadderv3pro"], "typical": 20000},
+
+    {"id": "hhkb-hybrid-type-s", "name": "HHKB Professional HYBRID Type-S", "cat": "keyboard", "q": "HHKB Professional HYBRID Type-S", "must": ["hybridtypes"], "typical": 36000},
+    {"id": "logicool-mx-keys-mini", "name": "ロジクール MX KEYS mini", "cat": "keyboard", "q": "ロジクール MX KEYS mini", "must": ["mxkeysmini"], "typical": 14000},
+    {"id": "logicool-g-pro-x-tkl-rapid", "name": "ロジクールG PRO X TKL RAPID", "cat": "keyboard", "q": "ロジクール PRO X TKL RAPID", "must": ["proxtklrapid"], "typical": 25000},
+
+    {"id": "shure-sm7b", "name": "SHURE SM7B", "cat": "stream", "q": "SHURE SM7B", "must": ["sm7b"], "typical": 55000},
+    {"id": "shure-mv7-plus", "name": "SHURE MV7+", "cat": "stream", "q": "SHURE MV7+", "must": ["mv7+"], "typical": 40000},
+    {"id": "yamaha-ag03mk2", "name": "ヤマハ AG03MK2", "cat": "stream", "q": "ヤマハ AG03MK2", "must": ["ag03mk2"], "typical": 17000},
+    {"id": "audio-technica-at2020usb-x", "name": "オーディオテクニカ AT2020USB-X", "cat": "stream", "q": "オーディオテクニカ AT2020USB-X", "must": ["at2020usbx"], "typical": 16000},
+    {"id": "elgato-stream-deck-mk2", "name": "Elgato Stream Deck MK.2", "cat": "stream", "q": "Elgato Stream Deck MK.2", "must": ["streamdeck", "mk.2|mk2"], "typical": 20000},
+
+    {"id": "sony-wh-1000xm6", "name": "ソニー WH-1000XM6", "cat": "audio", "q": "ソニー WH-1000XM6", "must": ["wh1000xm6"], "typical": 58000},
+    {"id": "sony-wh-1000xm5", "name": "ソニー WH-1000XM5", "cat": "audio", "q": "ソニー WH-1000XM5", "must": ["wh1000xm5"], "typical": 42000},
+    {"id": "sony-wf-1000xm5", "name": "ソニー WF-1000XM5", "cat": "audio", "q": "ソニー WF-1000XM5", "must": ["wf1000xm5"], "typical": 28000},
+    {"id": "apple-airpods-pro-3", "name": "Apple AirPods Pro 3", "cat": "audio", "q": "Apple AirPods Pro 3", "must": ["airpodspro3"], "typical": 39800},
+    {"id": "anker-soundcore-liberty-5", "name": "Anker Soundcore Liberty 5", "cat": "audio", "q": "Anker Soundcore Liberty 5", "must": ["liberty5"], "typical": 15000},
+
+    {"id": "anker-737-power-bank", "name": "Anker 737 Power Bank", "cat": "power", "q": "Anker 737 Power Bank", "must": ["737", "powerbank"], "typical": 15000},
+    {"id": "anker-nano-ii-65w", "name": "Anker Nano II 65W", "cat": "power", "q": "Anker Nano II 65W", "must": ["nanoii", "65w"], "typical": 4500},
+
+    {"id": "switchbot-lock-pro", "name": "SwitchBot ロック Pro", "cat": "home", "q": "SwitchBot ロック Pro", "must": ["switchbot", "ロックpro"], "ng": ["ultra"], "typical": 17000},
+    {"id": "switchbot-hub-2", "name": "SwitchBot ハブ2", "cat": "home", "q": "SwitchBot ハブ2", "must": ["switchbot", "ハブ2"], "typical": 9000},
+
+    {"id": "ergotron-lx-45-241", "name": "エルゴトロン LX モニターアーム", "cat": "desk", "q": "エルゴトロン LX 45-241", "must": ["45241"], "typical": 17000},
+    {"id": "logicool-c920n", "name": "ロジクール C920n", "cat": "desk", "q": "ロジクール C920n", "must": ["c920n"], "typical": 8000},
+    {"id": "logicool-streamcam-c980", "name": "ロジクール StreamCam C980", "cat": "desk", "q": "ロジクール StreamCam C980", "must": ["c980"], "typical": 15000}
+  ]
+}

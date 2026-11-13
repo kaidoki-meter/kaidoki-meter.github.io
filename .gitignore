@@ -1,0 +1,10 @@
+.env
+public/
+data_sample/
+__pycache__/
+*.pyc
+*.tmp
+.claude/
+CLAUDE.md
+はじめかた.md
+.env.example.local
